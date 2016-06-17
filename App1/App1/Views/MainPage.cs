@@ -28,7 +28,7 @@ namespace App1
                 HorizontalTextAlignment = TextAlignment.Center,
                 VerticalTextAlignment = TextAlignment.Center
             };
-
+            
             //TRAILS
             var gridTrails = new Grid
             {
