@@ -1,5 +1,4 @@
-﻿using App1.ViewModels;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace App1
 {

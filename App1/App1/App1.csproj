@@ -38,7 +38,8 @@
     <Compile Include="App.cs" />
     <Compile Include="HelperClasses\DbQueryAsync.cs" />
     <Compile Include="HelperClasses\Fakes\FakeModels.cs" />
-    <Compile Include="Views\MainPage.cs" />
+    <Compile Include="Views\MainPage\Content\MainPageGeneratedContent.cs" />
+    <Compile Include="Views\MainPage\MainPage.cs" />
     <Compile Include="Models\Trails.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\TrailsViewModel.cs" />

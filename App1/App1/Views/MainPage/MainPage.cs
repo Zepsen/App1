@@ -1,5 +1,6 @@
 ﻿using App1.Views;
 using System;
+using System.Collections.Generic;
 using Xamarin.Forms;
 
 namespace App1
@@ -7,6 +8,12 @@ namespace App1
     class MainPage : ContentPage
     {
         public MainPage()
+        {
+            Grid gridContainer = GenerateGridContainer();
+            Content = gridContainer;
+        }
+
+        private Grid GenerateGridContainer()
         {
             var gridContainer = new Grid()
             {
@@ -18,7 +25,19 @@ namespace App1
                 }
             };
 
-            var label = new Label
+            Label label = GenerateMainLabel();
+            Grid gridTrails = GenerateGridOfTrails();
+            Button button = GenerateButton();
+
+            gridContainer.Children.Add(label, 0, 0);
+            gridContainer.Children.Add(new ScrollView { Content = gridTrails }, 0, 1);
+            gridContainer.Children.Add(button, 0, 2);
+
+            return gridContainer;
+        }
+        private static Label GenerateMainLabel()
+        {
+            return new Label
             {
                 BackgroundColor = Color.Green,
                 TextColor = Color.White,
@@ -28,35 +47,34 @@ namespace App1
                 HorizontalTextAlignment = TextAlignment.Center,
                 VerticalTextAlignment = TextAlignment.Center
             };
-            
-            //TRAILS
+        }
+        private Grid GenerateGridOfTrails()
+        {
+            var listOfTrails = DbQueryAsync.GetTrails();
+            var trailsCount = listOfTrails.Count % 2 == 0 ? listOfTrails.Count / 2 : listOfTrails.Count / 2 + 1;
+
+            var rowDefinitionsCollection = new RowDefinitionCollection();
+            for (int i = 0; i < trailsCount; i++)
+            {
+                rowDefinitionsCollection.Add(new RowDefinition { Height = 200 });
+            }
+
             var gridTrails = new Grid
             {
-                RowDefinitions =
-                {
-                    new RowDefinition {Height = new GridLength(1, GridUnitType.Star)},
-                    new RowDefinition {Height = new GridLength(1, GridUnitType.Star)},
-                    //new RowDefinition {Height = new GridLength(1, GridUnitType.Star)}
-                },
-
+                RowDefinitions = rowDefinitionsCollection,
                 ColumnDefinitions =
                 {
                     new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)},
-                    new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)},
-                    //new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)}
+                    new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)}                    
                 }
             };
-
-            var listOfTrails = DbQueryAsync.GetTrails();
-
-
-
+            
             int count = 0;
             for (int i = 0; i < 2; i++)
             {
-                for (int j = 0; j < 2; j++)
+                for (int j = 0; j < trailsCount; j++)
                 {
-                    //Create Container            
+                    //Create Container                               
                     var rel = new RelativeLayout();
                     var stack = new Grid
                     {
@@ -115,7 +133,7 @@ namespace App1
 
                         stack.Children.Add(new Label
                         {
-                            Text = listOfTrails[count].Difficult,                            
+                            Text = listOfTrails[count].Difficult,
                             VerticalTextAlignment = TextAlignment.Center,
                             HorizontalTextAlignment = TextAlignment.Center,
                             BackgroundColor = new Color(0, 8, 0, 0.5)
@@ -123,7 +141,7 @@ namespace App1
 
                         stack.Children.Add(new Label
                         {
-                            Text = listOfTrails[count].Rate.ToString("N1"),                            
+                            Text = listOfTrails[count].Rate.ToString("N1"),
                             VerticalTextAlignment = TextAlignment.Center,
                             HorizontalTextAlignment = TextAlignment.Center,
                             BackgroundColor = new Color(0, 8, 0, 0.5)
@@ -149,8 +167,10 @@ namespace App1
                 }
             }
 
-
-            //BUTTON
+            return gridTrails;
+        }
+        private static Button GenerateButton()
+        {
             var button = new Button
             {
                 Text = "More",
@@ -163,16 +183,7 @@ namespace App1
                 //Navigation.PushAsync(new TrailPage());
             };
             //button.SetBinding(Button.CommandProperty, nameof(TrailsViewModel.GetTrails));
-
-
-            gridContainer.Children.Add(label, 0, 0);
-            gridContainer.Children.Add(gridTrails, 0, 1);
-            gridContainer.Children.Add(button, 0, 2);
-
-            Content = gridContainer;
+            return button;
         }
-
-
-
     }
 }
