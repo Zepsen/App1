@@ -19,10 +19,9 @@ namespace App1.Views.TrailPage
             {
                 RowDefinitions =
                 {
-                    new RowDefinition {Height = new GridLength(1, GridUnitType.Star)},
+                    new RowDefinition {Height = 50},
                     new RowDefinition {Height = new GridLength(6, GridUnitType.Star)}
-                },
-                BackgroundColor = Color.Gray
+                },                
             };
 
             var mainLabel = GenericsContent.GenerateMainLabel();
@@ -37,12 +36,12 @@ namespace App1.Views.TrailPage
         private StackLayout GenerateContentForTrailPage(FullTrail trail)
         {
             var stack = new StackLayout
-            {
-                Padding = new Thickness(30, 0),
-                BackgroundColor = Color.White
+            {                
+                Padding = new Thickness(30, 0),                                
+                BackgroundColor = Color.White                
             };
 
-            var trailNameLabel = GenericsContent.GenerateGenericTextLabelWithDefaultSettings(trail.Name);
+            var trailNameLabel = GenerateTrailNameLabel(trail.Name);
             var trailRateLabel = GenerateRateLabel(trail.Rate);
             var trailDescription = GenericsContent.GenerateGenericTextLabelWithDefaultSettings(trail.Description);
             var trailFullDescription = GenericsContent.GenerateGenericTextLabelWithDefaultSettings(trail.FullDescription);
@@ -62,11 +61,22 @@ namespace App1.Views.TrailPage
             return stack;
         }
 
+        private Label GenerateTrailNameLabel(string name)
+        {
+            return new Label
+            {
+                Text = name,
+                TextColor = DefaultAppStyles.DefaultTextColor,
+                FontSize = 22,
+                FontAttributes = FontAttributes.Bold,
+                HorizontalTextAlignment = TextAlignment.Center,
+            };
+        }
         private Label GenerateRateLabel(double rate)
         {
             return new Label
             {
-                Text = rate.ToString("N1"),
+                Text = $"Rate: {rate.ToString("N1")}",
                 TextColor = DefaultAppStyles.DefaultTextColor,
                 FontSize = DefaultAppStyles.DefaultFontSize
             };

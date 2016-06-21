@@ -20,7 +20,7 @@ namespace App1
             {
                 RowDefinitions =
                 {
-                    new RowDefinition {Height = new GridLength(1, GridUnitType.Star)},
+                    new RowDefinition {Height = 50},
                     new RowDefinition {Height = new GridLength(6, GridUnitType.Star)},
                     new RowDefinition {Height = new GridLength(1, GridUnitType.Star)}
                 }
