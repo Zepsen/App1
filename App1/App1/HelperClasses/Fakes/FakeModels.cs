@@ -11,9 +11,9 @@ namespace App1.HelperClasses.Fakes
     {
         static Random rand = new Random();
 
-        public static Trails FakeTrail()
+        public static Trail FakeTrail()
         {
-            return new Trails
+            return new Trail
             {
                 Id = rand.Next(1, 100).ToString(),
                 Name = "FakeTrail" + rand.Next(1, 100),
@@ -22,9 +22,9 @@ namespace App1.HelperClasses.Fakes
             };
         }
 
-        public static List<Trails> FakeListOfTrails()
+        public static List<Trail> FakeListOfTrails()
         {
-            return new List<Trails>
+            return new List<Trail>
             {
                 FakeTrail(),
                 FakeTrail(),
@@ -35,6 +35,38 @@ namespace App1.HelperClasses.Fakes
                 FakeTrail(),
                 FakeTrail(),
                 //FakeTrail()
+            };
+        }
+
+        public static FullTrail GetFakeFullTrailById(string id)
+        {
+            return new FullTrail
+            {
+                Id = id,
+                Difficult = "Easy",
+                Name = "FakeName" + id,
+                Region = "FakeRegion",
+                Country = "FakeCountry",
+                State = "FakeState",
+
+                Distance = 1000,
+
+                GoodForKids = true,
+                Type = "loop",
+                DurationType = "weekend",
+                CoverPhoto = "trail.jpg",
+
+                Description = "Fake description " + new string('*', 100),
+                DogAllowed = true,
+                Elevation = 10.2,
+                FullDescription = "Fake full description " + new string('*', 100),
+                Peak = 1000,
+                Photos = new List<string> { "trail1.jpg", "trail2.jpg"},
+                Rate = 3.3,
+                References = new List<string> { "http://google.com"},
+                SeasonEnd = "May",
+                SeasonStart = "March",
+                WhyGo = "Fake whygo " + new string('*', 100)
             };
         }
     }

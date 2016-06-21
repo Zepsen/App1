@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace App1.Models
 {
-    public class Trails
+    public class Trail
     {
         public string Id { get; set; }
         public string Name { get; set; }
         public string Difficult { get; set; }
         public double Rate { get; set; }
     }
+
+    
 }

@@ -1,4 +1,5 @@
 ﻿using App1.Views;
+using App1.Views.TrailPage;
 using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
@@ -25,7 +26,7 @@ namespace App1
                 }
             };
 
-            Label label = GenerateMainLabel();
+            Label label = GenericsContent.GenerateMainLabel();
             Grid gridTrails = GenerateGridOfTrails();
             Button button = GenerateButton();
 
@@ -35,19 +36,7 @@ namespace App1
 
             return gridContainer;
         }
-        private static Label GenerateMainLabel()
-        {
-            return new Label
-            {
-                BackgroundColor = Color.Green,
-                TextColor = Color.White,
-                Text = "OUTDOOR.ROCKS",
-                FontSize = 22,
-                FontAttributes = FontAttributes.Bold,
-                HorizontalTextAlignment = TextAlignment.Center,
-                VerticalTextAlignment = TextAlignment.Center
-            };
-        }
+        
         private Grid GenerateGridOfTrails()
         {
             var listOfTrails = DbQueryAsync.GetTrails();

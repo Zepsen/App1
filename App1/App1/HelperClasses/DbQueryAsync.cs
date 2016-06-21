@@ -14,9 +14,14 @@ namespace App1
             return response.Result;
         }
 
-        public static List<Trails> GetTrails()
+        public static List<Trail> GetTrails()
         {
             return FakeModels.FakeListOfTrails();
+        }
+
+        public static FullTrail GetTrailById(string id)
+        {
+            return FakeModels.GetFakeFullTrailById(id);
         }
     }
    

@@ -11,10 +11,10 @@ namespace App1.ViewModels
     public class TrailsViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        public Trails _trails { get; set; }
+        public Trail _trails { get; set; }
         public TrailsViewModel()
         {
-            _trails = new Trails();
+            _trails = new Trail();
         }
 
         public string Name

@@ -37,13 +37,15 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="HelperClasses\DbQueryAsync.cs" />
+    <Compile Include="HelperClasses\DefaultAppStyles.cs" />
     <Compile Include="HelperClasses\Fakes\FakeModels.cs" />
-    <Compile Include="Views\MainPage\Content\MainPageGeneratedContent.cs" />
+    <Compile Include="Models\FullTrail.cs" />
+    <Compile Include="Views\GenericsContent.cs" />
     <Compile Include="Views\MainPage\MainPage.cs" />
-    <Compile Include="Models\Trails.cs" />
+    <Compile Include="Models\Trail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\TrailsViewModel.cs" />
-    <Compile Include="Views\TrailPage.cs" />
+    <Compile Include="Views\TrailPage\TrailPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Mono.Android">
