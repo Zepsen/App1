@@ -12,11 +12,11 @@ namespace App1.HelperClasses.Fakes
         static Random rand = new Random();
 
         public static Trail FakeTrail()
-        {
+        {            
             return new Trail
             {
                 Id = rand.Next(1, 100).ToString(),
-                Name = "FakeTrail" + rand.Next(1, 100),
+                Name = "FakeName" + rand.Next(1, 100),
                 Difficult = "Easy",
                 Rate = rand.NextDouble() * 10
             };

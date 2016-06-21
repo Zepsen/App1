@@ -10,7 +10,7 @@ namespace App1
     {
         public MainPage()
         {
-            Grid gridContainer = GenerateGridContainer();
+            Grid gridContainer = GenerateGridContainer();            
             Content = gridContainer;
         }
 
