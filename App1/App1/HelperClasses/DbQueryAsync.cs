@@ -27,7 +27,15 @@ namespace App1
 
         public static FullTrail GetTrailById(string id)
         {
-            return FakeModels.GetFakeFullTrailById(id);
+            var response = client.GetAsync($"api/Trails/{id}").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                var content = response.Content.ReadAsStringAsync().Result;
+                return JsonConvert.DeserializeObject<FullTrail>(content);
+            };
+
+            return null;
+            //return FakeModels.GetFakeFullTrailById(id);
         }
 
     }

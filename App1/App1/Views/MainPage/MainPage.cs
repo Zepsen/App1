@@ -11,7 +11,7 @@ namespace App1
     {
         public MainPage()
         {
-            Grid gridContainer = GenerateGridContainer();            
+            Grid gridContainer = GenerateGridContainer();
             Content = gridContainer;
         }
 
@@ -37,7 +37,7 @@ namespace App1
 
             return gridContainer;
         }
-        
+
         private Grid GenerateGridOfTrails()
         {
             var listOfTrails = DbQueryAsync.GetTrails();
@@ -55,10 +55,10 @@ namespace App1
                 ColumnDefinitions =
                 {
                     new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)},
-                    new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)}                    
+                    new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)}
                 }
             };
-            
+
             int count = 0;
             for (int i = 0; i < 2; i++)
             {
@@ -92,25 +92,27 @@ namespace App1
                     };
                     stack.GestureRecognizers.Add(tap);
 
-                    //Image Style
-                    var backgroundImage = new Image()
-                    {
-                        Source = ImageSource.FromFile(listOfTrails[count].CoverPhoto),
-                        Aspect = Aspect.AspectFill,
-                        IsOpaque = true,
-                        Opacity = 0.8,
-                    };
-
                     //TRAILS CONTENT
                     if (listOfTrails.Count > count)
                     {
                         stack.Children.Add(new Label
                         {
                             Text = listOfTrails[count].Id,
-                            VerticalTextAlignment = TextAlignment.Center,
-                            HorizontalTextAlignment = TextAlignment.Center,
-                            BackgroundColor = new Color(0, 8, 0, 0.5)
+                            IsVisible = false
+                            
                         }, 0, 2);
+
+                        //Image Style
+                        var backgroundImage = new Image()
+                        {
+                            Source = ImageSource.FromFile(listOfTrails[count].CoverPhoto),
+                            Aspect = Aspect.AspectFill,
+                            IsOpaque = true,
+                            Opacity = 0.8,
+                        };
+
+                        StackLayout icons = SetIconsToTrail(listOfTrails[count]);
+                        stack.Children.Add(icons, 1, 2);
 
                         stack.Children.Add(new Label
                         {
@@ -159,6 +161,24 @@ namespace App1
 
             return gridTrails;
         }
+
+        private StackLayout SetIconsToTrail(Models.Trail trail)
+        {
+            var icons = new StackLayout
+            {
+                Orientation = StackOrientation.Horizontal,
+                HorizontalOptions = LayoutOptions.FillAndExpand                      
+            };
+
+            if (trail.DogAllowed)
+                icons.Children.Add(DefaultAppStyles.CreateIcon("icon_white_dog_freindly.png"));
+
+            if (trail.GoodForKids)
+                icons.Children.Add(DefaultAppStyles.CreateIcon("icon_white_good_for_kids.png"));
+
+            return icons;
+        }
+
         private static Button GenerateButton()
         {
             var button = new Button
