@@ -98,8 +98,7 @@ namespace App1
                         stack.Children.Add(new Label
                         {
                             Text = listOfTrails[count].Id,
-                            IsVisible = false
-                            
+                            IsVisible = false                            
                         }, 0, 2);
 
                         //Image Style
@@ -119,8 +118,10 @@ namespace App1
                             Text = listOfTrails[count].Name,
                             VerticalTextAlignment = TextAlignment.Start,
                             HorizontalTextAlignment = TextAlignment.Center,
+                            VerticalOptions = LayoutOptions.Start,
                             FontAttributes = FontAttributes.Bold,
-                            FontSize = 16
+                            FontSize = 20,
+                            BackgroundColor = new Color(0, 0, 0, 0.2)
                         }, 1, 1);
 
                         stack.Children.Add(new Label
@@ -131,13 +132,13 @@ namespace App1
                             BackgroundColor = DefaultAppStyles.GetColorForLableByDifficultData(listOfTrails[count].Difficult)
                         }, 0, 0);
 
-                        stack.Children.Add(new Label
-                        {
-                            Text = listOfTrails[count].Country,
-                            VerticalTextAlignment = TextAlignment.Center,
-                            HorizontalTextAlignment = TextAlignment.Center,
-                            BackgroundColor = new Color(0, 8, 0, 0.5)
-                        }, 2, 0);
+                        //stack.Children.Add(new Label
+                        //{
+                        //    Text = listOfTrails[count].Country,
+                        //    VerticalTextAlignment = TextAlignment.Center,
+                        //    HorizontalTextAlignment = TextAlignment.Center,
+                        //    BackgroundColor = new Color(0, 8, 0, 0.5)
+                        //}, 2, 0);
 
                         rel.Children.Add(
                                 backgroundImage,
@@ -176,6 +177,25 @@ namespace App1
             if (trail.GoodForKids)
                 icons.Children.Add(DefaultAppStyles.CreateIcon("icon_white_good_for_kids.png"));
 
+            if(!string.IsNullOrEmpty(trail.DurationType))
+            {
+                switch(trail.DurationType)
+                {
+                    case "Weekend":
+                        icons.Children.Add(DefaultAppStyles.CreateIcon("icon_white_weekend.png"));
+                        break;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(trail.Type))
+            {
+                switch (trail.Type)
+                {
+                    case "Loop":
+                        icons.Children.Add(DefaultAppStyles.CreateIcon("icon_white_loop.png"));
+                        break;
+                }
+            }
             return icons;
         }
 
