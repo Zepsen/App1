@@ -17,8 +17,7 @@ namespace App1.HelperClasses.Fakes
             {
                 Id = rand.Next(1, 100).ToString(),
                 Name = "FakeName" + rand.Next(1, 100),
-                Difficult = "Easy",
-                Rate = rand.NextDouble() * 10
+                Difficult = "Easy",                
             };
         }
 

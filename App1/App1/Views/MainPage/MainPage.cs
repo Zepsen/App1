@@ -1,4 +1,5 @@
-﻿using App1.Views;
+﻿using App1.HelperClasses;
+using App1.Views;
 using App1.Views.TrailPage;
 using System;
 using System.Collections.Generic;
@@ -94,7 +95,7 @@ namespace App1
                     //Image Style
                     var backgroundImage = new Image()
                     {
-                        Source = ImageSource.FromFile("trails.jpg"),
+                        Source = ImageSource.FromFile(listOfTrails[count].CoverPhoto),
                         Aspect = Aspect.AspectFill,
                         IsOpaque = true,
                         Opacity = 0.8,
@@ -125,12 +126,12 @@ namespace App1
                             Text = listOfTrails[count].Difficult,
                             VerticalTextAlignment = TextAlignment.Center,
                             HorizontalTextAlignment = TextAlignment.Center,
-                            BackgroundColor = new Color(0, 8, 0, 0.5)
+                            BackgroundColor = DefaultAppStyles.GetColorForLableByDifficultData(listOfTrails[count].Difficult)
                         }, 0, 0);
 
                         stack.Children.Add(new Label
                         {
-                            Text = listOfTrails[count].Rate.ToString("N1"),
+                            Text = listOfTrails[count].Country,
                             VerticalTextAlignment = TextAlignment.Center,
                             HorizontalTextAlignment = TextAlignment.Center,
                             BackgroundColor = new Color(0, 8, 0, 0.5)
