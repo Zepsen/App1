@@ -39,6 +39,7 @@
     <Compile Include="HelperClasses\DbQueryAsync.cs" />
     <Compile Include="HelperClasses\DefaultAppStyles.cs" />
     <Compile Include="HelperClasses\Fakes\FakeModels.cs" />
+    <Compile Include="Models\Comments.cs" />
     <Compile Include="Models\FullTrail.cs" />
     <Compile Include="Views\GenericsContent.cs" />
     <Compile Include="Views\MainPage\MainPage.cs" />

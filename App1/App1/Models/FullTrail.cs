@@ -31,6 +31,6 @@ namespace App1.Models
         public string FullDescription { get; set; }
         public List<string> References { get; set; }
         public List<string> Photos { get; set; }
-        //public List<CommentsModel> Comments { get; set; }
+        public List<Comments> Comments { get; set; }
     }
 }

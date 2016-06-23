@@ -109,7 +109,7 @@ namespace App1
                             IsOpaque = true,
                             Opacity = 0.8,
                         };
-
+                        
                         StackLayout icons = SetIconsToTrail(listOfTrails[count]);
                         stack.Children.Add(icons, 1, 2);
 
@@ -129,17 +129,10 @@ namespace App1
                             Text = listOfTrails[count].Difficult,
                             VerticalTextAlignment = TextAlignment.Center,
                             HorizontalTextAlignment = TextAlignment.Center,
-                            BackgroundColor = DefaultAppStyles.GetColorForLableByDifficultData(listOfTrails[count].Difficult)
+                            BackgroundColor = GenericsContent.GetColorForLableByDifficultData(listOfTrails[count].Difficult)
                         }, 0, 0);
 
-                        //stack.Children.Add(new Label
-                        //{
-                        //    Text = listOfTrails[count].Country,
-                        //    VerticalTextAlignment = TextAlignment.Center,
-                        //    HorizontalTextAlignment = TextAlignment.Center,
-                        //    BackgroundColor = new Color(0, 8, 0, 0.5)
-                        //}, 2, 0);
-
+           
                         rel.Children.Add(
                                 backgroundImage,
                                 Constraint.Constant(0),
@@ -172,30 +165,18 @@ namespace App1
             };
 
             if (trail.DogAllowed)
-                icons.Children.Add(DefaultAppStyles.CreateIcon("icon_white_dog_freindly.png"));
+                icons.Children.Add(GenericsContent.CreateIcon("icon_white_dog_freindly.png"));
 
             if (trail.GoodForKids)
-                icons.Children.Add(DefaultAppStyles.CreateIcon("icon_white_good_for_kids.png"));
+                icons.Children.Add(GenericsContent.CreateIcon("icon_white_good_for_kids.png"));
 
-            if(!string.IsNullOrEmpty(trail.DurationType))
-            {
-                switch(trail.DurationType)
-                {
-                    case "Weekend":
-                        icons.Children.Add(DefaultAppStyles.CreateIcon("icon_white_weekend.png"));
-                        break;
-                }
-            }
+            if (!string.IsNullOrEmpty(trail.DurationType))
+                icons.Children.Add(GenericsContent.CreateWhiteIconByType(trail.DurationType));
+            
 
             if (!string.IsNullOrEmpty(trail.Type))
-            {
-                switch (trail.Type)
-                {
-                    case "Loop":
-                        icons.Children.Add(DefaultAppStyles.CreateIcon("icon_white_loop.png"));
-                        break;
-                }
-            }
+                icons.Children.Add(GenericsContent.CreateWhiteIconByType(trail.Type));
+
             return icons;
         }
 
