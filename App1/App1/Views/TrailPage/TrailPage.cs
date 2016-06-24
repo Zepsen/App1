@@ -3,6 +3,7 @@ using App1.Models;
 using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
+using Xamarin.Forms.Maps;
 
 namespace App1.Views.TrailPage
 {
@@ -61,6 +62,7 @@ namespace App1.Views.TrailPage
             stack.Children.Add(GenericsContent.GenerateTextBlockWithHeader("Full description", trail.FullDescription));
             stack.Children.Add(GenericsContent.GenerateTextBlockWithHeader("Why go?", trail.WhyGo));
             stack.Children.Add(GenerateCommentsView(trail.Comments));
+            //stack.Children.Add(GenerateMap());
 
             return new ScrollView { Content = stack };
         }
@@ -315,5 +317,21 @@ namespace App1.Views.TrailPage
                 BackgroundColor = Color.FromRgba(0, 0, 7, 0.1)
             };
         }
+
+        //private Frame GenerateMap()
+        //{
+        //    var map = new Map(
+        //    MapSpan.FromCenterAndRadius(
+        //            new Position(37, -122), Distance.FromMiles(0.3)))
+        //    {
+        //        IsShowingUser = true,
+        //        HeightRequest = 100,
+        //        WidthRequest = 960,
+        //        VerticalOptions = LayoutOptions.FillAndExpand
+        //    };
+
+        //    var frame = new Frame { HasShadow = true, OutlineColor = Color.Silver, Content = map };
+        //    return frame;
+        //}
     }
 }

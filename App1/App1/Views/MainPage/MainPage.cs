@@ -1,53 +1,72 @@
 ﻿using App1.HelperClasses;
+using App1.Models;
 using App1.Views;
 using App1.Views.TrailPage;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Xamarin.Forms;
 
 namespace App1
 {
     class MainPage : ContentPage
     {
+        private Grid gridContainer = null;
+        private List<Trail> trails = null;
+        private List<Location> locations = null;
+
+
         public MainPage()
         {
+            trails = DbQueryAsync.GetTrails();
+            locations = DbQueryAsync.GetLocations().OrderBy(i => i.Region).ToList();
+
             Grid gridContainer = GenerateGridContainer();
             Content = gridContainer;
         }
 
         private Grid GenerateGridContainer()
-        {
-            var gridContainer = new Grid()
+        {            
+            gridContainer = new Grid()
             {
                 RowDefinitions =
                 {
                     new RowDefinition {Height = 50},
-                    new RowDefinition {Height = new GridLength(6, GridUnitType.Star)},
-                    new RowDefinition {Height = new GridLength(1, GridUnitType.Star)}
+                    new RowDefinition {Height = 30 },
+                    new RowDefinition {Height = new GridLength(6, GridUnitType.Star)}
                 }
             };
-
-            Label label = GenericsContent.GenerateMainLabel();
-            Grid gridTrails = GenerateGridOfTrails();
-            Button button = GenerateButton();
-
-            gridContainer.Children.Add(label, 0, 0);
-            gridContainer.Children.Add(new ScrollView { Content = gridTrails }, 0, 1);
-            gridContainer.Children.Add(button, 0, 2);
-
+            
+            gridContainer.Children.Add(GenericsContent.GenerateMainLabel(), 0, 0);
+            gridContainer.Children.Add(GenerateFilterMenu(locations), 0, 1);
+            gridContainer.Children.Add(new ScrollView { Content = GenerateGridOfTrails(trails) }, 0, 2);
+           
             return gridContainer;
         }
 
-        private Grid GenerateGridOfTrails()
+        private StackLayout GenerateFilterMenu(List<Location> locations)
         {
-            var listOfTrails = DbQueryAsync.GetTrails();
-            var trailsCount = listOfTrails.Count % 2 == 0 ? listOfTrails.Count / 2 : listOfTrails.Count / 2 + 1;
+            var stack = new StackLayout { Orientation = StackOrientation.Horizontal };
 
-            var rowDefinitionsCollection = new RowDefinitionCollection();
-            for (int i = 0; i < trailsCount; i++)
+            var allLabel = GenericsContent.GenerateFilterLabels("All");
+            AddTapForFilter(allLabel);
+            stack.Children.Add(allLabel);
+            
+            foreach (var item in locations)
             {
-                rowDefinitionsCollection.Add(new RowDefinition { Height = 200 });
+                var label = GenericsContent.GenerateFilterLabels(item.Region);
+                AddTapForFilter(label);
+                stack.Children.Add(label);
             }
+            
+            return stack;
+        }
+        
+        private Grid GenerateGridOfTrails(List<Trail> list, string filter = "All")
+        {
+            var listOfTrails = GetListOfTrailsByFilter(list, filter);
+            var trailsCount = GetTrailsCountForGrid(listOfTrails.Count);
+            var rowDefinitionsCollection = InitRowDefinitionCollectionByCount(trailsCount);
 
             var gridTrails = new Grid
             {
@@ -82,64 +101,24 @@ namespace App1
                             new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)}
                         }
                     };
-
-                    //Add events for tap on TRAIL
-                    var tap = new TapGestureRecognizer();
-                    tap.Tapped += (object obj, EventArgs e) =>
-                    {
-                        var id = ((obj as Grid).Children[0] as Label).Text;
-                        Navigation.PushAsync(new TrailPage(id));
-                    };
-                    stack.GestureRecognizers.Add(tap);
-
-                    //TRAILS CONTENT
+                    
+                    AddTapForTrail(stack);
+                    
                     if (listOfTrails.Count > count)
                     {
-                        stack.Children.Add(new Label
-                        {
-                            Text = listOfTrails[count].Id,
-                            IsVisible = false                            
-                        }, 0, 2);
-
-                        //Image Style
-                        var backgroundImage = new Image()
-                        {
-                            Source = ImageSource.FromFile(listOfTrails[count].CoverPhoto),
-                            Aspect = Aspect.AspectFill,
-                            IsOpaque = true,
-                            Opacity = 0.8,
-                        };
-                        
-                        StackLayout icons = SetIconsToTrail(listOfTrails[count]);
+                        stack.Children.Add(GenerateHiddenlabelById(listOfTrails[count].Id), 0, 2);
+                        stack.Children.Add(GenerateDifficultLabelByMainPage(listOfTrails[count].Difficult), 0, 0);
+                        stack.Children.Add(GenerateTrailNameByMainPage(listOfTrails[count].Name), 1, 1);
+                        var icons = SetIconsToTrail(listOfTrails[count]);
                         stack.Children.Add(icons, 1, 2);
 
-                        stack.Children.Add(new Label
-                        {
-                            Text = listOfTrails[count].Name,
-                            VerticalTextAlignment = TextAlignment.Start,
-                            HorizontalTextAlignment = TextAlignment.Center,
-                            VerticalOptions = LayoutOptions.Start,
-                            FontAttributes = FontAttributes.Bold,
-                            FontSize = 20,
-                            BackgroundColor = new Color(0, 0, 0, 0.2)
-                        }, 1, 1);
-
-                        stack.Children.Add(new Label
-                        {
-                            Text = listOfTrails[count].Difficult,
-                            VerticalTextAlignment = TextAlignment.Center,
-                            HorizontalTextAlignment = TextAlignment.Center,
-                            BackgroundColor = GenericsContent.GetColorForLableByDifficultData(listOfTrails[count].Difficult)
-                        }, 0, 0);
-
-           
                         rel.Children.Add(
-                                backgroundImage,
+                                CreateCoverPhotoByTrail(listOfTrails[count].CoverPhoto),
                                 Constraint.Constant(0),
                                 Constraint.Constant(0),
                                 Constraint.RelativeToParent((parent) => { return parent.Width; }),
                                 Constraint.RelativeToParent((parent) => { return parent.Height; }));
-
+                        
                         rel.Children.Add(
                                 stack,
                                 Constraint.Constant(0),
@@ -156,12 +135,111 @@ namespace App1
             return gridTrails;
         }
 
-        private StackLayout SetIconsToTrail(Models.Trail trail)
+        private static Label GenerateHiddenlabelById(string id)
+        {
+            return new Label
+            {
+                Text = id,
+                IsVisible = false
+            };
+        }
+
+        private static Label GenerateDifficultLabelByMainPage(string difficult)
+        {
+            return new Label
+            {
+                Text = difficult,
+                VerticalTextAlignment = TextAlignment.Center,
+                HorizontalTextAlignment = TextAlignment.Center,
+                BackgroundColor = GenericsContent.GetColorForLableByDifficultData(difficult)
+            };
+        }
+
+        private static Label GenerateTrailNameByMainPage(string name)
+        {
+            return new Label
+            {
+                Text = name,
+                VerticalTextAlignment = TextAlignment.Start,
+                HorizontalTextAlignment = TextAlignment.Center,
+                VerticalOptions = LayoutOptions.Start,
+                FontAttributes = FontAttributes.Bold,
+                FontSize = 20,
+                BackgroundColor = new Color(0, 0, 0, 0.2)
+            };
+        }
+
+        private static Image CreateCoverPhotoByTrail(string coverPhoto)
+        {            
+            return new Image()
+            {
+                Source = ImageSource.FromFile(coverPhoto),
+                Aspect = Aspect.AspectFill,
+                IsOpaque = true,
+                Opacity = 0.8,
+            };
+        }
+
+        private void AddTapForTrail(Grid stack)
+        {
+            var tap = new TapGestureRecognizer();
+            tap.Tapped += (object obj, EventArgs e) =>
+            {
+                var id = ((obj as Grid).Children[0] as Label).Text;
+                Navigation.PushAsync(new TrailPage(id));
+            };
+            stack.GestureRecognizers.Add(tap);
+        }
+
+        private void AddTapForFilter(Label label)
+        {
+            var tap = new TapGestureRecognizer();
+            tap.Tapped += (object obj, EventArgs e) =>
+            {
+                var filter = (obj as Label).Text;
+                gridContainer.Children.RemoveAt(2);
+                gridContainer.Children.Add(GenerateGridOfTrails(trails, filter), 0, 2);
+            };
+            label.GestureRecognizers.Add(tap);
+        }
+
+        private static List<Trail> GetListOfTrailsByFilter(List<Trail> list, string filter)
+        {
+            var listOfTrails = new List<Trail>();
+            if (filter != "All")
+            {
+                listOfTrails.AddRange(list.Where(i => i.Region == filter));
+            }
+            else
+            {
+                listOfTrails.AddRange(list);
+            }
+
+            return listOfTrails;
+        }
+
+        private static RowDefinitionCollection InitRowDefinitionCollectionByCount(int trailsCount)
+        {
+            var rowDefinitionsCollection = new RowDefinitionCollection();
+            for (int i = 0; i < trailsCount; i++)
+            {
+                rowDefinitionsCollection.Add(new RowDefinition { Height = 200 });
+            }
+            return rowDefinitionsCollection;
+        }
+
+        private static int GetTrailsCountForGrid(int count)
+        {
+            return count % 2 == 0 ? count / 2 
+                                  : count / 2 + 1;
+        }
+
+        private StackLayout SetIconsToTrail(Trail trail)
         {
             var icons = new StackLayout
             {
                 Orientation = StackOrientation.Horizontal,
-                HorizontalOptions = LayoutOptions.FillAndExpand                      
+                HorizontalOptions = LayoutOptions.FillAndExpand
             };
 
             if (trail.DogAllowed)
@@ -172,7 +250,7 @@ namespace App1
 
             if (!string.IsNullOrEmpty(trail.DurationType))
                 icons.Children.Add(GenericsContent.CreateWhiteIconByType(trail.DurationType));
-            
+
 
             if (!string.IsNullOrEmpty(trail.Type))
                 icons.Children.Add(GenericsContent.CreateWhiteIconByType(trail.Type));
@@ -180,21 +258,6 @@ namespace App1
             return icons;
         }
 
-        private static Button GenerateButton()
-        {
-            var button = new Button
-            {
-                Text = "More",
-                BackgroundColor = Color.Green,
-                TextColor = Color.White
-            };
-
-            button.Clicked += (object sender, EventArgs e) =>
-            {
-                //Navigation.PushAsync(new TrailPage());
-            };
-            //button.SetBinding(Button.CommandProperty, nameof(TrailsViewModel.GetTrails));
-            return button;
-        }
+      
     }
 }

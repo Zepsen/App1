@@ -61,6 +61,20 @@ namespace App1.Views
             };
         }
 
+        public static Label GenerateFilterLabels(string text)
+        {
+            return new Label
+            {
+                Text = text,
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                TextColor = Color.White,
+                FontSize = DefaultAppStyles.DefaultFontSize,
+                BackgroundColor = DefaultAppStyles.DefaultMainBackColor,
+                VerticalTextAlignment = TextAlignment.Center,
+                HorizontalTextAlignment = TextAlignment.Center
+            };
+        }
+
         public static Image CreateIcon(string name)
         {
             return new Image

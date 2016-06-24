@@ -38,6 +38,18 @@ namespace App1
             //return FakeModels.GetFakeFullTrailById(id);
         }
 
+        public static List<Location> GetLocations()
+        {
+            var response = client.GetAsync("api/Locations").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                var content = response.Content.ReadAsStringAsync().Result;
+                return JsonConvert.DeserializeObject<List<Location>>(content);
+            };
+
+            return null;
+            //return FakeModels.FakeListOfTrails();
+        }
     }
 
 }
