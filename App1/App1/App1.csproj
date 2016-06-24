@@ -98,7 +98,6 @@
     <None Include="AppData\TrailsDurationTypes.typed.csv" />
     <None Include="AppData\TrailsTypes.typed.csv" />
     <None Include="AppData\Users.typed.csv" />
-    <None Include="GettingStarted.Xamarin" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

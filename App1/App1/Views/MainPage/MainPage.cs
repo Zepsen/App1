@@ -256,10 +256,10 @@ namespace App1
             return rowDefinitionsCollection;
         }
 
-        private static int GetTrailsCountForGrid(int count)
+        private int GetTrailsCountForGrid(int count)
         {
-            return count % 2 == 0 ? count / 2 
-                                  : count / 2 + 1;
+            return (count - Paggination) > 0 ? Paggination / 2 
+                                               : count / 2 + 1;
         }
 
         private StackLayout SetIconsToTrail(Trail trail)
