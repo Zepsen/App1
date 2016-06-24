@@ -14,7 +14,9 @@ namespace App1
         private Grid mainGridContainer = null;
         private List<Trail> trails = null;
         private List<Location> locations = null;
-        
+        int Paggination = 4;
+        string Filter = "All";
+
         public MainPage()
         {
             trails = DbQueryAsync.GetTrails();
@@ -22,8 +24,7 @@ namespace App1
             
             Content = GenerateGridContainer();
         }
-
-
+        
         private Grid GenerateGridContainer()
         {            
             mainGridContainer = new Grid()
@@ -38,7 +39,7 @@ namespace App1
             
             mainGridContainer.Children.Add(GenericsContent.GenerateMainLabel(), 0, 0);
             mainGridContainer.Children.Add(GenerateFilterMenu(locations), 0, 1);
-            mainGridContainer.Children.Add(GenerateGridOfTrails(trails), 0, 2);
+            mainGridContainer.Children.Add(GenerateGridOfTrails(), 0, 2);
             
             return mainGridContainer;
         }
@@ -47,7 +48,7 @@ namespace App1
         {
             var stack = new StackLayout { Orientation = StackOrientation.Horizontal };
 
-            var allLabel = GenericsContent.GenerateFilterLabels("All");
+            var allLabel = GenericsContent.GenerateFilterLabels(Filter);
             AddTapForFilter(allLabel);
             stack.Children.Add(allLabel);
             
@@ -61,9 +62,9 @@ namespace App1
             return stack;
         }
 
-        private ScrollView GenerateGridOfTrails(List<Trail> list, string filter = "All")
+        private ScrollView GenerateGridOfTrails()
         {
-            var listOfTrails = GetListOfTrailsByFilter(list, filter);
+            var listOfTrails = GetListOfTrailsByFilter();
             var trailsCount = GetTrailsCountForGrid(listOfTrails.Count);
             var rowDefinitionsCollection = InitRowDefinitionCollectionByCount(trailsCount);
 
@@ -103,7 +104,7 @@ namespace App1
 
                     AddTapForTrail(stack);
 
-                    if (listOfTrails.Count > count)
+                    if (listOfTrails.Count > count && count < Paggination)
                     {
                         stack.Children.Add(GenerateHiddenlabelById(listOfTrails[count].Id), 0, 2);
                         stack.Children.Add(GenerateDifficultLabelByMainPage(listOfTrails[count].Difficult), 0, 0);
@@ -131,7 +132,32 @@ namespace App1
                 }
             }
 
+            var btn = GenerateButtonMore();
+            gridTrails.Children.Add(btn, 0, count);
+            Grid.SetColumnSpan(btn, 2);            
             return new ScrollView { Content = gridTrails };
+        }
+
+        private Button GenerateButtonMore()
+        {
+            var btn = new Button { Text = "More", BackgroundColor = DefaultAppStyles.DefaultMainBackColor };
+            AddClickToMoreButton(btn);
+            btn.IsVisible = (trails.Count > Paggination) ? true : false;
+            return btn;
+        }
+
+        private void AddClickToMoreButton(Button btn)
+        {
+            btn.Clicked += (object obj, EventArgs e) =>
+            {
+                if (trails.Count > Paggination)
+                {
+                    Paggination += 4;                                        
+                }
+                               
+                mainGridContainer.Children.RemoveAt(2);
+                mainGridContainer.Children.Add(GenerateGridOfTrails(), 0, 2);
+            };
         }
 
         private static Label GenerateHiddenlabelById(string id)
@@ -195,23 +221,24 @@ namespace App1
             var tap = new TapGestureRecognizer();
             tap.Tapped += (object obj, EventArgs e) =>
             {
-                var filter = (obj as Label).Text;
+                Filter = (obj as Label).Text;
+                Paggination = 4;
                 mainGridContainer.Children.RemoveAt(2);
-                mainGridContainer.Children.Add(GenerateGridOfTrails(trails, filter), 0, 2);
+                mainGridContainer.Children.Add(GenerateGridOfTrails(), 0, 2);
             };
             label.GestureRecognizers.Add(tap);
         }
 
-        private static List<Trail> GetListOfTrailsByFilter(List<Trail> list, string filter)
+        private List<Trail> GetListOfTrailsByFilter()
         {
             var listOfTrails = new List<Trail>();
-            if (filter != "All")
+            if (Filter != "All")
             {
-                listOfTrails.AddRange(list.Where(i => i.Region == filter));
+                listOfTrails.AddRange(trails.Where(i => i.Region == Filter));
             }
             else
             {
-                listOfTrails.AddRange(list);
+                listOfTrails.AddRange(trails);
             }
 
             return listOfTrails;
@@ -224,6 +251,8 @@ namespace App1
             {
                 rowDefinitionsCollection.Add(new RowDefinition { Height = 200 });
             }
+            rowDefinitionsCollection.Add(new RowDefinition { Height = 50 });
+
             return rowDefinitionsCollection;
         }
 
