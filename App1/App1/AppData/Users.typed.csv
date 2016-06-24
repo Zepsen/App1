@@ -1,0 +1,2 @@
+PartitionKey,RowKey,Timestamp,Id,Id@type,Name,Name@type,Email,Email@type,Password,Password@type,RoleId,RoleId@type
+Users,11111111-1111-1111-1111-111111111111,2016-06-22T08:18:35.357Z,11111111-1111-1111-1111-111111111111,Edm.Guid,user,Edm.String,email@email.com,Edm.String,123456,Edm.String,11111111-1111-1111-1111-111111111111,Edm.Guid

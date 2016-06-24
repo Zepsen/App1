@@ -1,0 +1,2 @@
+PartitionKey,RowKey,Timestamp,Id,Id@type,Role,Role@type
+Roles,11111111-1111-1111-1111-111111111111,2016-06-22T07:52:12.370Z,11111111-1111-1111-1111-111111111111,Edm.Guid,Admin,Edm.String

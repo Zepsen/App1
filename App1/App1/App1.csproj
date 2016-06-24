@@ -83,6 +83,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="AppData\Comments.typed.csv" />
+    <None Include="AppData\Countries.typed.csv" />
+    <None Include="AppData\Difficults.typed.csv" />
+    <None Include="AppData\Locations.typed.csv" />
+    <None Include="AppData\Options.typed.csv" />
+    <None Include="AppData\Photos.typed.csv" />
+    <None Include="AppData\References.typed.csv" />
+    <None Include="AppData\Regions.typed.csv" />
+    <None Include="AppData\Roles.typed.csv" />
+    <None Include="AppData\Seasons.typed.csv" />
+    <None Include="AppData\States.typed.csv" />
+    <None Include="AppData\Trails.typed.csv" />
+    <None Include="AppData\TrailsDurationTypes.typed.csv" />
+    <None Include="AppData\TrailsTypes.typed.csv" />
+    <None Include="AppData\Users.typed.csv" />
     <None Include="GettingStarted.Xamarin" />
     <None Include="packages.config" />
   </ItemGroup>
