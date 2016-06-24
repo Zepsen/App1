@@ -140,9 +140,14 @@ namespace App1
 
         private Button GenerateButtonMore()
         {
-            var btn = new Button { Text = "More", BackgroundColor = DefaultAppStyles.DefaultMainBackColor };
-            AddClickToMoreButton(btn);
-            btn.IsVisible = (trails.Count > Paggination) ? true : false;
+            var btn = new Button
+            {
+                Text = "More",
+                BackgroundColor = DefaultAppStyles.DefaultMainBackColor,
+                IsVisible = (trails.Count > Paggination) ? true : false
+            };
+
+            AddClickToMoreButton(btn);            
             return btn;
         }
 
