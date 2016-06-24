@@ -11,37 +11,36 @@ namespace App1
 {
     class MainPage : ContentPage
     {
-        private Grid gridContainer = null;
+        private Grid mainGridContainer = null;
         private List<Trail> trails = null;
         private List<Location> locations = null;
-
-
+        
         public MainPage()
         {
             trails = DbQueryAsync.GetTrails();
             locations = DbQueryAsync.GetLocations().OrderBy(i => i.Region).ToList();
-
-            Grid gridContainer = GenerateGridContainer();
-            Content = gridContainer;
+            
+            Content = GenerateGridContainer();
         }
+
 
         private Grid GenerateGridContainer()
         {            
-            gridContainer = new Grid()
+            mainGridContainer = new Grid()
             {
                 RowDefinitions =
                 {
                     new RowDefinition {Height = 50},
                     new RowDefinition {Height = 30 },
-                    new RowDefinition {Height = new GridLength(6, GridUnitType.Star)}
+                    new RowDefinition {Height = new GridLength(6, GridUnitType.Star)}                  
                 }
             };
             
-            gridContainer.Children.Add(GenericsContent.GenerateMainLabel(), 0, 0);
-            gridContainer.Children.Add(GenerateFilterMenu(locations), 0, 1);
-            gridContainer.Children.Add(new ScrollView { Content = GenerateGridOfTrails(trails) }, 0, 2);
-           
-            return gridContainer;
+            mainGridContainer.Children.Add(GenericsContent.GenerateMainLabel(), 0, 0);
+            mainGridContainer.Children.Add(GenerateFilterMenu(locations), 0, 1);
+            mainGridContainer.Children.Add(GenerateGridOfTrails(trails), 0, 2);
+            
+            return mainGridContainer;
         }
 
         private StackLayout GenerateFilterMenu(List<Location> locations)
@@ -61,8 +60,8 @@ namespace App1
             
             return stack;
         }
-        
-        private Grid GenerateGridOfTrails(List<Trail> list, string filter = "All")
+
+        private ScrollView GenerateGridOfTrails(List<Trail> list, string filter = "All")
         {
             var listOfTrails = GetListOfTrailsByFilter(list, filter);
             var trailsCount = GetTrailsCountForGrid(listOfTrails.Count);
@@ -101,9 +100,9 @@ namespace App1
                             new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)}
                         }
                     };
-                    
+
                     AddTapForTrail(stack);
-                    
+
                     if (listOfTrails.Count > count)
                     {
                         stack.Children.Add(GenerateHiddenlabelById(listOfTrails[count].Id), 0, 2);
@@ -118,7 +117,7 @@ namespace App1
                                 Constraint.Constant(0),
                                 Constraint.RelativeToParent((parent) => { return parent.Width; }),
                                 Constraint.RelativeToParent((parent) => { return parent.Height; }));
-                        
+
                         rel.Children.Add(
                                 stack,
                                 Constraint.Constant(0),
@@ -132,7 +131,7 @@ namespace App1
                 }
             }
 
-            return gridTrails;
+            return new ScrollView { Content = gridTrails };
         }
 
         private static Label GenerateHiddenlabelById(string id)
@@ -197,8 +196,8 @@ namespace App1
             tap.Tapped += (object obj, EventArgs e) =>
             {
                 var filter = (obj as Label).Text;
-                gridContainer.Children.RemoveAt(2);
-                gridContainer.Children.Add(GenerateGridOfTrails(trails, filter), 0, 2);
+                mainGridContainer.Children.RemoveAt(2);
+                mainGridContainer.Children.Add(GenerateGridOfTrails(trails, filter), 0, 2);
             };
             label.GestureRecognizers.Add(tap);
         }

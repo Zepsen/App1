@@ -45,6 +45,7 @@ namespace App1
             {
                 var content = response.Content.ReadAsStringAsync().Result;
                 return JsonConvert.DeserializeObject<List<Location>>(content);
+                
             };
 
             return null;
