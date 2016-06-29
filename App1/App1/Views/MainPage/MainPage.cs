@@ -14,6 +14,7 @@ namespace App1
         private Grid mainGridContainer = null;
         private List<Trail> trails = null;
         private List<Location> locations = null;
+        private int trailsCount = 0;
         int Paggination = 4;
         string Filter = "All";
 
@@ -65,7 +66,7 @@ namespace App1
         private ScrollView GenerateGridOfTrails()
         {
             var listOfTrails = GetListOfTrailsByFilter();
-            var trailsCount = GetTrailsCountForGrid(listOfTrails.Count);
+            trailsCount = GetTrailsCountForGrid(listOfTrails.Count);
             var rowDefinitionsCollection = InitRowDefinitionCollectionByCount(trailsCount);
 
             var gridTrails = new Grid
