@@ -1,6 +1,7 @@
 ﻿using App1.HelperClasses;
 using App1.Models;
 using App1.Views;
+using App1.Views.LoginPage;
 using App1.Views.TrailPage;
 using System;
 using System.Collections.Generic;
@@ -50,17 +51,18 @@ namespace App1
             var stack = new StackLayout { Orientation = StackOrientation.Horizontal };
 
             var mainLabel = GenericsContent.GetHeaderLabel();
-            var regLabel = GenericsContent.GetHeaderRegistrationLabel();
+            var loginLabel = GenericsContent.GetHeaderRegistrationLabel();
 
-            AddTapToMainHeaderLabel(mainLabel);
+            AddTapNavToMainPage(mainLabel);
+            AddTapNavToLoginPage(loginLabel);
 
             stack.Children.Add(mainLabel);
-            stack.Children.Add(regLabel);
+            stack.Children.Add(loginLabel);
 
             return stack;
         }
 
-        private void AddTapToMainHeaderLabel(Label label)
+        private void AddTapNavToMainPage(Label label)
         {
             var tap = new TapGestureRecognizer();
             tap.Tapped += (object obj, EventArgs e) =>
@@ -70,6 +72,16 @@ namespace App1
             label.GestureRecognizers.Add(tap);
         }
 
+        private void AddTapNavToLoginPage(Label label)
+        {
+            var tap = new TapGestureRecognizer();
+            tap.Tapped += (object obj, EventArgs e) =>
+            {
+                Navigation.PushAsync(new LoginPage());
+            };
+            label.GestureRecognizers.Add(tap);
+        }
+        
         private StackLayout GenerateFilterMenu(List<Location> locations)
         {
             var stack = new StackLayout { Orientation = StackOrientation.Horizontal };
