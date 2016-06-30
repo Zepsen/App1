@@ -1,7 +1,7 @@
 ﻿using Xamarin.Forms;
 
 namespace App1
-{
+{    
     public class App : Application
     {
         public App()

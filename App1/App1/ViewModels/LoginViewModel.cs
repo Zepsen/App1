@@ -38,7 +38,7 @@ namespace App1.ViewModels
         }
 
         protected async Task ExecuteLoginCommand()
-        {
+        {            
             //await navigation.PopModalAsync();
             //Debug.WriteLine(username);
             //Debug.WriteLine(password);
