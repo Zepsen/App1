@@ -187,5 +187,14 @@ namespace App1.Views
                                   : diff == "Hard" ? Color.Red
                                                    : Color.Yellow;
         }
+
+        public static Button GenerateDefaultButton(string text = "Button")
+        {
+            return new Button
+            {
+                Text = text,
+                BackgroundColor = DefaultAppStyles.DefaultMainBackColor
+            };
+        }
     }
 }

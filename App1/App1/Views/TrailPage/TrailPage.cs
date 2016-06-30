@@ -81,7 +81,10 @@ namespace App1.Views.TrailPage
             stack.Children.Add(GenericsContent.GenerateTextBlockWithHeader(nameof(trail.Description), trail.Description));
             stack.Children.Add(GenericsContent.GenerateTextBlockWithHeader("Full description", trail.FullDescription));
             stack.Children.Add(GenericsContent.GenerateTextBlockWithHeader("Why go?", trail.WhyGo));
+
             stack.Children.Add(GenerateCommentsView(trail.Comments));
+            stack.Children.Add(GenerateCreatedCommentForm());
+
             //stack.Children.Add(GenerateMap());
 
             return new ScrollView { Content = stack };
@@ -339,6 +342,7 @@ namespace App1.Views.TrailPage
 
             return stack;
         }
+
         private Frame GenerateCommentField(string comment)
         {
             return new Frame
@@ -349,6 +353,45 @@ namespace App1.Views.TrailPage
                 OutlineColor = Color.Silver,
                 BackgroundColor = Color.FromRgba(0, 0, 7, 0.1)
             };
+        }
+        private Frame GenerateCreatedCommentForm()
+        {
+            var stack = new StackLayout();
+
+            stack.Children.Add(new Editor { Keyboard = Keyboard.Chat, TextColor = DefaultAppStyles.DefaultTextColor });
+
+            var picker = GeneratePickerForCommentRate();
+            stack.Children.Add(picker);
+
+            stack.Children.Add(GenerateCommentButton());
+
+            return new Frame { Content = stack, HasShadow = true, OutlineColor = Color.Silver };
+        }
+
+        private static Picker GeneratePickerForCommentRate()
+        {
+            var picker = new Picker
+            {
+                TextColor = DefaultAppStyles.DefaultTextColor,
+                Title = "Rate"
+            };
+
+            for (int i = 0; i < 6; i++)
+            {
+                picker.Items.Add(i.ToString());
+            }
+
+            return picker;
+        }
+
+        private Button GenerateCommentButton()
+        {
+            var button = GenericsContent.GenerateDefaultButton("Add");
+            button.Clicked += (o, e) =>
+            {
+
+            };
+            return button;
         }
 
         //private Frame GenerateMap()
