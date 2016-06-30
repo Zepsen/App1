@@ -357,7 +357,6 @@ namespace App1.Views.TrailPage
         private Frame GenerateCreatedCommentForm()
         {
             var stack = new StackLayout();
-
             stack.Children.Add(new Editor { Keyboard = Keyboard.Chat, TextColor = DefaultAppStyles.DefaultTextColor });
 
             var picker = GeneratePickerForCommentRate();
