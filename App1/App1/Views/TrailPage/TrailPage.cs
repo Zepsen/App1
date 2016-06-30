@@ -50,26 +50,7 @@ namespace App1.Views.TrailPage
             return stack;
         }
 
-        private void AddTapNavToMainPage(Label label)
-        {
-            var tap = new TapGestureRecognizer();
-            tap.Tapped += (object obj, EventArgs e) =>
-            {
-                Navigation.PushAsync(new MainPage());
-            };
-            label.GestureRecognizers.Add(tap);
-        }
-
-        private void AddTapNavToLoginPage(Label label)
-        {
-            var tap = new TapGestureRecognizer();
-            tap.Tapped += (object obj, EventArgs e) =>
-            {
-                Navigation.PushAsync(new Views.LoginPage.LoginPage());
-            };
-            label.GestureRecognizers.Add(tap);
-        }
-
+        
         private ScrollView GenerateMainScrollTrailPage(FullTrail trail)
         {
             var stack = new StackLayout
@@ -93,6 +74,9 @@ namespace App1.Views.TrailPage
             stack.Children.Add(GenerateTrailNameLabel(trail.Name));
             stack.Children.Add(GenerateTableForStaticOptions(trail));        
             stack.Children.Add(GenerateTableForOptions(trail));
+
+            stack.Children.Add(GenerateUpdateOptionButton());
+
             stack.Children.Add(GenerateReferencesLabels(trail.References));
             stack.Children.Add(GenericsContent.GenerateTextBlockWithHeader(nameof(trail.Description), trail.Description));
             stack.Children.Add(GenericsContent.GenerateTextBlockWithHeader("Full description", trail.FullDescription));
@@ -101,6 +85,19 @@ namespace App1.Views.TrailPage
             //stack.Children.Add(GenerateMap());
 
             return new ScrollView { Content = stack };
+        }
+        
+        private Button GenerateUpdateOptionButton()
+        {
+            var button = new Button
+            {
+                Text = "Update",
+                BackgroundColor = Color.Yellow
+            };
+
+            AddClickNavToOptionPage(button);
+
+            return button;
         }
 
         private Grid GenerateTableForOptions(FullTrail trail)
@@ -369,5 +366,33 @@ namespace App1.Views.TrailPage
         //    var frame = new Frame { HasShadow = true, OutlineColor = Color.Silver, Content = map };
         //    return frame;
         //}
+
+        private void AddTapNavToMainPage(Label label)
+        {
+            var tap = new TapGestureRecognizer();
+            tap.Tapped += (object obj, EventArgs e) =>
+            {
+                Navigation.PushAsync(new MainPage());
+            };
+            label.GestureRecognizers.Add(tap);
+        }
+
+        private void AddTapNavToLoginPage(Label label)
+        {
+            var tap = new TapGestureRecognizer();
+            tap.Tapped += (object obj, EventArgs e) =>
+            {
+                Navigation.PushAsync(new Views.LoginPage.LoginPage());
+            };
+            label.GestureRecognizers.Add(tap);
+        }
+
+        private void AddClickNavToOptionPage(Button btn)
+        {
+            btn.Clicked += (o, e) =>
+            {
+                Navigation.PushAsync(new Views.TrailPage.OptionPage());
+            };
+        }
     }
 }

@@ -42,6 +42,7 @@
     <Compile Include="Models\Comments.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\FullTrail.cs" />
+    <Compile Include="Models\Option.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="Views\GenericsContent.cs" />
@@ -50,6 +51,7 @@
     <Compile Include="Models\Trail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\TrailsViewModel.cs" />
+    <Compile Include="Views\TrailPage\OptionPage.cs" />
     <Compile Include="Views\TrailPage\TrailPage.cs" />
   </ItemGroup>
   <ItemGroup>
