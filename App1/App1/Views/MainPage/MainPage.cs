@@ -38,11 +38,36 @@ namespace App1
                 }
             };
             
-            mainGridContainer.Children.Add(GenericsContent.GenerateMainLabel(), 0, 0);
+            mainGridContainer.Children.Add(GenerateHeader(), 0, 0);
             mainGridContainer.Children.Add(GenerateFilterMenu(locations), 0, 1);
             mainGridContainer.Children.Add(GenerateGridOfTrails(), 0, 2);
             
             return mainGridContainer;
+        }
+
+        private StackLayout GenerateHeader()
+        {
+            var stack = new StackLayout { Orientation = StackOrientation.Horizontal };
+
+            var mainLabel = GenericsContent.GetHeaderLabel();
+            var regLabel = GenericsContent.GetHeaderRegistrationLabel();
+
+            AddTapToMainHeaderLabel(mainLabel);
+
+            stack.Children.Add(mainLabel);
+            stack.Children.Add(regLabel);
+
+            return stack;
+        }
+
+        private void AddTapToMainHeaderLabel(Label label)
+        {
+            var tap = new TapGestureRecognizer();
+            tap.Tapped += (object obj, EventArgs e) =>
+            {
+                Navigation.PushAsync(new MainPage());
+            };
+            label.GestureRecognizers.Add(tap);
         }
 
         private StackLayout GenerateFilterMenu(List<Location> locations)
@@ -217,7 +242,7 @@ namespace App1
             tap.Tapped += (object obj, EventArgs e) =>
             {
                 var id = ((obj as Grid).Children[0] as Label).Text;
-                Navigation.PushAsync(new TrailPage(id));
+                Navigation.PushAsync(new TrailPage(id));                
             };
             stack.GestureRecognizers.Add(tap);
         }

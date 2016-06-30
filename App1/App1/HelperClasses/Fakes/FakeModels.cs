@@ -17,7 +17,12 @@ namespace App1.HelperClasses.Fakes
             {
                 Id = rand.Next(1, 100).ToString(),
                 Name = "FakeName" + rand.Next(1, 100),
-                Difficult = "Easy",                
+                Difficult = "Easy",   
+                Country = "Fake Country",
+                CoverPhoto = "trail.jpg",
+                DogAllowed = true,
+                Region = "Europe"
+
             };
         }
 
@@ -47,25 +52,39 @@ namespace App1.HelperClasses.Fakes
                 Region = "FakeRegion",
                 Country = "FakeCountry",
                 State = "FakeState",
-
                 Distance = 1000,
-
                 GoodForKids = true,
                 Type = "loop",
                 DurationType = "weekend",
                 CoverPhoto = "trail.jpg",
-
                 Description = "Fake description " + new string('*', 100),
                 DogAllowed = true,
                 Elevation = 10.2,
                 FullDescription = "Fake full description " + new string('*', 100),
                 Peak = 1000,
-                Photos = new List<string> { "trail1.jpg", "trail2.jpg"},
+                Photos = new List<string> { "trail1.jpg", "trail2.jpg" },
                 Rate = 3.3,
-                References = new List<string> { "http://google.com"},
+                References = new List<string> { "http://google.com" },
                 SeasonEnd = "May",
                 SeasonStart = "March",
-                WhyGo = "Fake whygo " + new string('*', 100)
+                WhyGo = "Fake whygo " + new string('*', 100),
+                Comments = new List<Comments>()
+            };
+        }
+
+        public static List<Location> GetFakeLocationsList()
+        {
+            return new List<Location>
+            {
+                GetFakeLocation()
+            };
+        }
+
+        private static Location GetFakeLocation()
+        {
+            return new Location
+            {
+                Region = "Europe"
             };
         }
     }

@@ -26,12 +26,37 @@ namespace App1.Views.TrailPage
                 },
             };
 
-            var mainLabel = GenericsContent.GenerateMainLabel();
+            var mainLabel = GenerateHeader();
 
             gridContainer.Children.Add(mainLabel, 0, 0);            
             gridContainer.Children.Add(GenerateMainScrollTrailPage(trail), 0, 1);
                         
             return gridContainer;
+        }
+
+        private StackLayout GenerateHeader()
+        {
+            var stack = new StackLayout { Orientation = StackOrientation.Horizontal };
+
+            var mainLabel = GenericsContent.GetHeaderLabel();
+            var regLabel = GenericsContent.GetHeaderRegistrationLabel();
+
+            AddTapToMainHeaderLabel(mainLabel);
+
+            stack.Children.Add(mainLabel);
+            stack.Children.Add(regLabel);
+
+            return stack;
+        }
+
+        private void AddTapToMainHeaderLabel(Label label)
+        {
+            var tap = new TapGestureRecognizer();
+            tap.Tapped += (object obj, EventArgs e) =>
+            {
+                Navigation.PushAsync(new MainPage());
+            };
+            label.GestureRecognizers.Add(tap);
         }
 
         private ScrollView GenerateMainScrollTrailPage(FullTrail trail)

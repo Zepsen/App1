@@ -14,42 +14,42 @@ namespace App1
 
         public static List<Trail> GetTrails()
         {
-            var response = client.GetAsync("api/Trails").Result;
-            if (response.IsSuccessStatusCode)
-            {
-                var content = response.Content.ReadAsStringAsync().Result;
-                return JsonConvert.DeserializeObject<List<Trail>>(content);
-            };
+            //var response = client.GetAsync("api/Trails").Result;
+            //if (response.IsSuccessStatusCode)
+            //{
+            //    var content = response.Content.ReadAsStringAsync().Result;
+            //    return JsonConvert.DeserializeObject<List<Trail>>(content);
+            //};
 
-            return null;
-            //return FakeModels.FakeListOfTrails();
+            //return null;
+            return FakeModels.FakeListOfTrails();
         }        
 
         public static FullTrail GetTrailById(string id)
         {
-            var response = client.GetAsync($"api/Trails/{id}").Result;
-            if (response.IsSuccessStatusCode)
-            {
-                var content = response.Content.ReadAsStringAsync().Result;
-                return JsonConvert.DeserializeObject<FullTrail>(content);
-            };
+            //var response = client.GetAsync($"api/Trails/{id}").Result;
+            //if (response.IsSuccessStatusCode)
+            //{
+            //    var content = response.Content.ReadAsStringAsync().Result;
+            //    return JsonConvert.DeserializeObject<FullTrail>(content);
+            //};
 
-            return null;
-            //return FakeModels.GetFakeFullTrailById(id);
+            //return null;
+            return FakeModels.GetFakeFullTrailById(id);
         }
 
         public static List<Location> GetLocations()
         {
-            var response = client.GetAsync("api/Locations").Result;
-            if (response.IsSuccessStatusCode)
-            {
-                var content = response.Content.ReadAsStringAsync().Result;
-                return JsonConvert.DeserializeObject<List<Location>>(content);
+            //var response = client.GetAsync("api/Locations").Result;
+            //if (response.IsSuccessStatusCode)
+            //{
+            //    var content = response.Content.ReadAsStringAsync().Result;
+            //    return JsonConvert.DeserializeObject<List<Location>>(content);
                 
-            };
+            //};
 
-            return null;
-            //return FakeModels.FakeListOfTrails();
+            //return null;
+            return FakeModels.GetFakeLocationsList();
         }
     }
 

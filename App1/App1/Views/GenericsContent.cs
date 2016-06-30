@@ -1,22 +1,52 @@
 ﻿using App1.HelperClasses;
+using System;
 using Xamarin.Forms;
 
 namespace App1.Views
 {
     public class GenericsContent
     {
-        public static Label GenerateMainLabel()
+        //public static StackLayout GenerateHeader()
+        //{
+        //    var stack = new StackLayout { Orientation = StackOrientation.Horizontal };
+        //    stack.Children.Add(GetHeaderLabel());
+        //    stack.Children.Add(GetHeaderRegistrationLabel());
+        //    return stack;
+        //}
+
+        public static Label GetHeaderRegistrationLabel()
         {
-            return new Label
+            var label = new Label
             {
-                BackgroundColor = Color.Green,
+                BackgroundColor = DefaultAppStyles.DefaultMainBackColor,
+                TextColor = Color.White,
+                Text = "LogIn",
+                FontSize = 18,
+                FontAttributes = FontAttributes.Bold,
+                HorizontalTextAlignment = TextAlignment.Center,
+                VerticalTextAlignment = TextAlignment.Center,
+                HorizontalOptions = LayoutOptions.End
+            };
+
+            return label;
+        }
+
+        public static Label GetHeaderLabel()
+        {
+            var label = new Label
+            {
+                BackgroundColor = DefaultAppStyles.DefaultMainBackColor,
                 TextColor = Color.White,
                 Text = "OUTDOOR.ROCKS",
                 FontSize = 22,
                 FontAttributes = FontAttributes.Bold,
                 HorizontalTextAlignment = TextAlignment.Center,
-                VerticalTextAlignment = TextAlignment.Center                
+                VerticalTextAlignment = TextAlignment.Center,
+                HorizontalOptions = LayoutOptions.FillAndExpand
+
             };
+                        
+            return label;
         }
         
         public static StackLayout GenerateTextBlockWithHeader(string header, string text)
