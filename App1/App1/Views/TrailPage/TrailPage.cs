@@ -396,6 +396,7 @@ namespace App1.Views.TrailPage
             return button;
         }
 
+
         //private Frame GenerateMap()
         //{
         //    var map = new Map(
