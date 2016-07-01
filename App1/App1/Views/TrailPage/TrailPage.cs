@@ -262,7 +262,7 @@ namespace App1.Views.TrailPage
                 HeightRequest = 150
             };
         }
-
+        
         private StackLayout GenerateReferencesLabels(List<string> references)
         {
             var stack = new StackLayout { Orientation = StackOrientation.Vertical };
@@ -354,9 +354,12 @@ namespace App1.Views.TrailPage
                 BackgroundColor = Color.FromRgba(0, 0, 7, 0.1)
             };
         }
+
         private Frame GenerateCreatedCommentForm()
         {
             var stack = new StackLayout();
+
+            stack.Children.Add(GenericsContent.GenerateHeaderLabel("Leave yours commnet"));
             stack.Children.Add(new Frame {
                 OutlineColor = Color.Silver,
                 Content = new Editor { Keyboard = Keyboard.Chat, TextColor = DefaultAppStyles.DefaultTextColor } });
@@ -368,7 +371,6 @@ namespace App1.Views.TrailPage
 
             return new Frame { Content = stack, HasShadow = true, OutlineColor = Color.Silver };
         }
-
         private static Picker GeneratePickerForCommentRate()
         {
             var picker = new Picker
@@ -384,7 +386,6 @@ namespace App1.Views.TrailPage
 
             return picker;
         }
-
         private Button GenerateCommentButton()
         {
             var button = GenericsContent.GenerateDefaultButton("Add");
