@@ -1,9 +1,11 @@
 ﻿using App1.HelperClasses.Fakes;
 using App1.Models;
+using App1.Models.HelperModel;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace App1
@@ -80,6 +82,21 @@ namespace App1
 
             };
 
+            return null;
+        }
+
+        public static FullTrail UpdateOption(string id, UpdatedOptionModel model)
+        {
+            model.DogAllowed = true;
+            model.GoodForKids = true;
+            var json = JsonConvert.SerializeObject(model);
+            var data = new StringContent("=" + json, Encoding.UTF8, "application/x-www-form-urlencoded");            
+            var response = client.PutAsync($"api/Trails/{id}", data).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                var content = response.Content.ReadAsStringAsync().Result;
+                return JsonConvert.DeserializeObject<FullTrail>(content);
+            };
             return null;
         }
     }

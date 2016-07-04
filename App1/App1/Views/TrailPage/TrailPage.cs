@@ -4,13 +4,16 @@ using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
 using App1.Views.LoginPage;
+using App1.Models.HelperModel;
 
 namespace App1.Views.TrailPage
 {
     public class TrailPage : ContentPage
     {
+        private string trailId;
         public TrailPage(string id)
         {
+            trailId = id;
             var trail = DbQueryAsync.GetTrailById(id);           
             Content = GenerateMainGrid(trail);
         }
@@ -92,12 +95,7 @@ namespace App1.Views.TrailPage
         
         private Button GenerateUpdateOptionButton()
         {
-            var button = new Button
-            {
-                Text = "Update",
-                BackgroundColor = Color.Yellow
-            };
-
+            var button = GenericsContent.GenerateDefaultButton("Update");
             AddClickNavToOptionPage(button);
 
             return button;
@@ -437,7 +435,7 @@ namespace App1.Views.TrailPage
         {
             btn.Clicked += (o, e) =>
             {
-                Navigation.PushAsync(new Views.TrailPage.OptionPage());
+                Navigation.PushAsync(new Views.TrailPage.OptionPage(trailId));
             };
         }
     }
