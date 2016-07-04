@@ -14,42 +14,73 @@ namespace App1
 
         public static List<Trail> GetTrails()
         {
-            //var response = client.GetAsync("api/Trails").Result;
-            //if (response.IsSuccessStatusCode)
-            //{
-            //    var content = response.Content.ReadAsStringAsync().Result;
-            //    return JsonConvert.DeserializeObject<List<Trail>>(content);
-            //};
+            var response = client.GetAsync("api/Trails").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                var content = response.Content.ReadAsStringAsync().Result;
+                return JsonConvert.DeserializeObject<List<Trail>>(content);
+            };
 
-            //return null;
-            return FakeModels.FakeListOfTrails();
+            return null;
+            //return FakeModels.FakeListOfTrails();
         }        
 
         public static FullTrail GetTrailById(string id)
         {
-            //var response = client.GetAsync($"api/Trails/{id}").Result;
-            //if (response.IsSuccessStatusCode)
-            //{
-            //    var content = response.Content.ReadAsStringAsync().Result;
-            //    return JsonConvert.DeserializeObject<FullTrail>(content);
-            //};
+            var response = client.GetAsync($"api/Trails/{id}").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                var content = response.Content.ReadAsStringAsync().Result;
+                return JsonConvert.DeserializeObject<FullTrail>(content);
+            };
 
-            //return null;
-            return FakeModels.GetFakeFullTrailById(id);
+            return null;
+            //return FakeModels.GetFakeFullTrailById(id);
         }
 
         public static List<Location> GetLocations()
         {
-            //var response = client.GetAsync("api/Locations").Result;
+            var response = client.GetAsync("api/Locations").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                var content = response.Content.ReadAsStringAsync().Result;
+                return JsonConvert.DeserializeObject<List<Location>>(content);
+
+            };
+
+            return null;
+            //return FakeModels.GetFakeLocationsList();
+        }
+
+        public static User GetToken(string username, string password)
+        {            
+            //var data = new FormUrlEncodedContent(new[]
+            //{
+            //    new KeyValuePair<string,string>("grant_type", "password"),
+            //    new KeyValuePair<string, string>("username", username),
+            //    new KeyValuePair<string, string>("password", password)
+            //});
+            //var response = client.PostAsync("Token", data).Result;
             //if (response.IsSuccessStatusCode)
             //{
             //    var content = response.Content.ReadAsStringAsync().Result;
-            //    return JsonConvert.DeserializeObject<List<Location>>(content);
-                
-            //};
+            //    return JsonConvert.DeserializeObject<User>(content);
+            //}
 
-            //return null;
-            return FakeModels.GetFakeLocationsList();
+            return null;
+        }
+
+        public static Option GetOptions()
+        {
+            var response = client.GetAsync("api/Options").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                var content = response.Content.ReadAsStringAsync().Result;
+                return JsonConvert.DeserializeObject<Option>(content);
+
+            };
+
+            return null;
         }
     }
 

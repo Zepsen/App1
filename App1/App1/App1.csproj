@@ -40,11 +40,13 @@
     <Compile Include="HelperClasses\DefaultAppStyles.cs" />
     <Compile Include="HelperClasses\Fakes\FakeModels.cs" />
     <Compile Include="Models\Comments.cs" />
+    <Compile Include="Models\HelperModel\SimpleModel.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\FullTrail.cs" />
     <Compile Include="Models\Option.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\OptionViewModel.cs" />
     <Compile Include="Views\GenericsContent.cs" />
     <Compile Include="Views\LoginPage\LoginPage.cs" />
     <Compile Include="Views\MainPage\MainPage.cs" />

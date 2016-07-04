@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using App1.Models;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace App1.ViewModels
@@ -37,11 +38,10 @@ namespace App1.ViewModels
             }
         }
 
-        protected async Task ExecuteLoginCommand()
-        {            
-            //await navigation.PopModalAsync();
-            //Debug.WriteLine(username);
-            //Debug.WriteLine(password);
+        protected async Task<User> ExecuteLoginCommand()
+        {
+            var user = DbQueryAsync.GetToken(username, password);
+            return user;
         }
     }
 }

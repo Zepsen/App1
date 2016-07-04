@@ -376,7 +376,7 @@ namespace App1.Views.TrailPage
             var picker = new Picker
             {
                 TextColor = DefaultAppStyles.DefaultTextColor,
-                Title = "Rate"
+                Title = "Rate",                
             };
 
             for (int i = 0; i < 6; i++)
