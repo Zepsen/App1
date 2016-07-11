@@ -18,40 +18,44 @@ namespace App1.ViewModels
         public UpdatedOptionModel _option { get; set; }
         private string _trailId;
 
-        private Dictionary<string, string> SeasonStartDictionary;
-        private Dictionary<string, string> SeasonEndDictionary;
-        private Dictionary<string, string> TrailTypeDictionary;
-        private Dictionary<string, string> TrailDurationTypeDictionary;
+        private Dictionary<string, SimpleModel> SeasonStartDictionary = new Dictionary<string, SimpleModel>();
+        private Dictionary<string, SimpleModel> SeasonEndDictionary = new Dictionary<string, SimpleModel>();
+        private Dictionary<string, SimpleModel> TrailTypeDictionary = new Dictionary<string, SimpleModel>();
+        private Dictionary<string, SimpleModel> TrailDurationTypeDictionary = new Dictionary<string, SimpleModel>();
 
         public OptionViewModel(string trailId, Option option)
         {
             _trailId = trailId;
             _option = new UpdatedOptionModel
             {
-                DurationType = "",
-                Type = "",
-                SeasonStart = "",
-                SeasonEnd = ""
+                SeasonStart = new SimpleModel { Id = "", Value = ""},
+                SeasonEnd = new SimpleModel { Id = "", Value = "" },
+                Type = new SimpleModel { Id = "", Value = "" },
+                DurationType = new SimpleModel { Id = "", Value = "" }
             };
 
+            int count = 0;
             foreach (var season in option.Seasons)
-            {
-                SeasonStartDictionary.Add(season.Id, season.Value);
+            {                
+                SeasonStartDictionary.Add(count++.ToString(), season);
             }
 
+            count = 0;
             foreach (var season in option.Seasons)
             {
-                SeasonEndDictionary.Add(season.Id, season.Value);
+                SeasonEndDictionary.Add(count++.ToString(), season);
             }
 
+            count = 0;
             foreach (var season in option.TrailsTypes)
             {
-                TrailTypeDictionary.Add(season.Id, season.Value);
+                TrailTypeDictionary.Add(count++.ToString(), season);
             }
 
+            count = 0;
             foreach (var season in option.TrailsDurationTypes)
             {
-                TrailDurationTypeDictionary.Add(season.Id, season.Value);
+                TrailDurationTypeDictionary.Add(count++.ToString(), season);
             }
         }
 
@@ -99,11 +103,11 @@ namespace App1.ViewModels
         {
             get
             {
-                return _option.SeasonStart;
+                return _option.SeasonStart.Value;
             }
             set
             {
-                _option.SeasonStart = SeasonStartDictionary.First(i => i.Value == value).Key;
+                _option.SeasonStart = SeasonStartDictionary.First(i => i.Key == value).Value;
                 OnPropertyChanged(nameof(_option.SeasonStart));
             }
         }
@@ -112,11 +116,11 @@ namespace App1.ViewModels
         {
             get
             {
-                return _option.SeasonEnd;
+                return _option.SeasonEnd.Value;
             }
             set
             {
-                _option.SeasonEnd = value;
+                _option.SeasonEnd = SeasonEndDictionary.First(i => i.Key == value).Value;
                 OnPropertyChanged(nameof(_option.SeasonEnd));
             }
         }
@@ -151,11 +155,11 @@ namespace App1.ViewModels
         {
             get
             {
-                return _option.Type;
+                return _option.Type.Value;
             }
             set
             {
-                _option.Type = value;
+                _option.Type = TrailTypeDictionary.First(i => i.Key == value).Value; 
                 OnPropertyChanged(nameof(_option.Type));
             }
         }
@@ -164,11 +168,11 @@ namespace App1.ViewModels
         {
             get
             {
-                return _option.DurationType;
+                return _option.DurationType.Value;
             }
             set
             {
-                _option.DurationType = value;
+                _option.DurationType = TrailDurationTypeDictionary.First(i => i.Key == value).Value; 
                 OnPropertyChanged(nameof(_option.DurationType));
             }
         }
