@@ -55,19 +55,15 @@ namespace App1
         }
 
         public static User GetToken(string username, string password)
-        {            
-            //var data = new FormUrlEncodedContent(new[]
-            //{
-            //    new KeyValuePair<string,string>("grant_type", "password"),
-            //    new KeyValuePair<string, string>("username", username),
-            //    new KeyValuePair<string, string>("password", password)
-            //});
-            //var response = client.PostAsync("Token", data).Result;
-            //if (response.IsSuccessStatusCode)
-            //{
-            //    var content = response.Content.ReadAsStringAsync().Result;
-            //    return JsonConvert.DeserializeObject<User>(content);
-            //}
+        {           
+            var str = "grant_type=password&username=" + username + "&password=" + password;
+            var data = new StringContent(str, Encoding.UTF8, "application/x-www-form-urlencoded");
+            var response = client.PostAsync("Token", data).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                var content = response.Content.ReadAsStringAsync().Result;
+                return JsonConvert.DeserializeObject<User>(content);
+            }
 
             return null;
         }
