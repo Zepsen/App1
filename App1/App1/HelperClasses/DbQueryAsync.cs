@@ -86,9 +86,7 @@ namespace App1
         }
 
         public static FullTrail UpdateOption(string id, UpdatedOptionModel model)
-        {
-            model.DogAllowed = true;
-            model.GoodForKids = true;
+        {           
             var json = JsonConvert.SerializeObject(model);
             var data = new StringContent("=" + json, Encoding.UTF8, "application/x-www-form-urlencoded");            
             var response = client.PutAsync($"api/Trails/{id}", data).Result;
@@ -98,6 +96,20 @@ namespace App1
                 return JsonConvert.DeserializeObject<FullTrail>(content);
             };
             return null;
+        }
+
+        public static bool AddComment(AddCommentsModel model)
+        {
+            model.Name = "User";
+            var json = JsonConvert.SerializeObject(model);
+            var data = new StringContent("=" + json, Encoding.UTF8, "application/x-www-form-urlencoded");
+            var response = client.PostAsync($"api/Comments/", data).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                var content = response.Content.ReadAsStringAsync().Result;
+                return true;
+            };
+            return false;
         }
     }
 

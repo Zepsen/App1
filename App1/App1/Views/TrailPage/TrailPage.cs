@@ -3,8 +3,7 @@ using App1.Models;
 using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
-using App1.Views.LoginPage;
-using App1.Models.HelperModel;
+using App1.ViewModels;
 
 namespace App1.Views.TrailPage
 {
@@ -14,7 +13,8 @@ namespace App1.Views.TrailPage
         public TrailPage(string id)
         {
             trailId = id;
-            var trail = DbQueryAsync.GetTrailById(id);           
+            var trail = DbQueryAsync.GetTrailById(id);
+            BindingContext = new CommentsViewModel(trailId);               
             Content = GenerateMainGrid(trail);
         }
 
@@ -356,11 +356,12 @@ namespace App1.Views.TrailPage
         private Frame GenerateCreatedCommentForm()
         {
             var stack = new StackLayout();
-
-            stack.Children.Add(GenericsContent.GenerateHeaderLabel("Leave yours commnet"));
-            stack.Children.Add(new Frame {
+            stack.Children.Add(GenericsContent.GenerateHeaderLabel("Leave yours commnet"));            
+            stack.Children.Add(new Frame
+            {
                 OutlineColor = Color.Silver,
-                Content = new Editor { Keyboard = Keyboard.Chat, TextColor = DefaultAppStyles.DefaultTextColor } });
+                Content = GenerateEditor()
+            });
 
             var picker = GeneratePickerForCommentRate();
             stack.Children.Add(picker);
@@ -369,6 +370,14 @@ namespace App1.Views.TrailPage
 
             return new Frame { Content = stack, HasShadow = true, OutlineColor = Color.Silver };
         }
+
+        private static Editor GenerateEditor()
+        {
+            var editor = new Editor { Keyboard = Keyboard.Chat, TextColor = DefaultAppStyles.DefaultTextColor };
+            editor.SetBinding(Editor.TextProperty, CommentsViewModel.CommentPropertyName);
+            return editor;
+        }
+
         private static Picker GeneratePickerForCommentRate()
         {
             var picker = new Picker
@@ -382,15 +391,13 @@ namespace App1.Views.TrailPage
                 picker.Items.Add(i.ToString());
             }
 
+            picker.SetBinding(Picker.SelectedIndexProperty, CommentsViewModel.RatePropertyName);
             return picker;
         }
         private Button GenerateCommentButton()
         {
             var button = GenericsContent.GenerateDefaultButton("Add");
-            button.Clicked += (o, e) =>
-            {
-
-            };
+            button.SetBinding(Button.CommandProperty, CommentsViewModel.CommentCommandPropertyName);
             return button;
         }
 
